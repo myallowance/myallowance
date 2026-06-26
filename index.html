@@ -4,32 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Allowance App</title>
-    <!-- Apple Home Screen Icon -->
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3067/3067423.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
     <style>
-        .choices { margin-bottom: 0 !important; width: 100%; }
+        /* ปรับ CSS ใหม่ให้ดูสะอาดและขยายกว้างเต็มที่ */
+        .choices { width: 100% !important; margin-bottom: 0 !important; }
         .choices__inner { 
-            border-radius: 1rem !important; 
+            border-radius: 12px !important; 
             border: 2px solid #e5e7eb !important; 
-            padding: 10px 15px !important; 
-            min-height: 55px !important; 
+            padding: 12px 16px !important; 
+            min-height: 60px !important; 
             display: flex;
             align-items: center;
+            background-color: white;
         }
-        .choices__list--dropdown { border-radius: 1rem !important; margin-top: 5px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
-        .choices__list--dropdown .choices__item--selectable { padding: 18px !important; font-size: 16px !important; }
-        .choices__list--dropdown .choices__group-heading { font-size: 14px; padding: 12px 15px; color: #2563eb; background: #eff6ff; }
+        .choices__list--dropdown { 
+            border-radius: 12px !important; 
+            margin-top: 8px !important; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important; 
+        }
+        .choices__list--dropdown .choices__item--selectable { 
+            padding: 16px 20px !important; 
+            font-size: 16px !important; 
+        }
+        .choices__list--dropdown .choices__group-heading { 
+            font-size: 13px !important; 
+            padding: 12px 20px !important; 
+            color: #2563eb; 
+            background: #eff6ff; 
+            text-transform: uppercase;
+        }
     </style>
 </head>
-<body class="bg-gray-50 p-4">
+<body class="bg-gray-100 p-4">
     <div class="max-w-md mx-auto bg-white rounded-3xl shadow-xl p-6">
         <h1 class="text-2xl font-black mb-6 text-gray-800">Allowance</h1>
 
         <div class="mb-6">
-            <label class="block font-bold mb-2 text-gray-500 text-xs uppercase tracking-widest">Base Salary (THB)</label>
+            <label class="block font-bold mb-2 text-gray-400 text-[11px] uppercase tracking-widest">Base Salary (THB)</label>
             <input id="baseSalary" type="number" inputmode="decimal" class="w-full border-2 border-gray-100 p-4 rounded-2xl text-xl font-bold" placeholder="0" oninput="calculate(); saveData();">
         </div>
 
@@ -146,28 +160,32 @@
             </div>
         </div>
 
-        <div class="flex gap-2 mt-6">
+       <div class="flex gap-2 mt-6">
             <button id="addFlightBtn" class="flex-1 bg-gray-100 p-4 rounded-2xl font-bold text-gray-600 hover:bg-gray-200">+ Add Flight</button>
             <button id="resetBtn" class="px-6 py-4 bg-red-50 text-red-500 rounded-2xl font-bold hover:bg-red-100">Reset</button>
         </div>
 
         <div class="mt-8 p-6 bg-blue-600 rounded-3xl text-center shadow-lg shadow-blue-200">
-            <p class="text-blue-100 text-sm font-medium mb-1">TOTAL AMOUNT</p>
+            <p class="text-blue-100 text-[10px] font-bold mb-1 uppercase tracking-widest">Total Amount</p>
             <span id="totalAmount" class="text-4xl font-black text-white">0.00</span>
         </div>
 
         <p class="mt-8 text-center text-gray-400 text-[10px] italic">This is just an estimation. There might be some discrepancies xoxo.</p>
         
         <div class="mt-4 p-4 bg-gray-50 rounded-2xl border border-gray-100">
-            <p class="text-[11px] text-gray-500 text-center leading-relaxed">
-                To install: Tap the <strong>Share</strong> button (bottom) and select <strong>"Add to Home Screen"</strong>.
-            </p>
+            <p class="text-[11px] text-gray-500 text-center">To install on iPhone: Tap <strong>Share</strong> > <strong>"Add to Home Screen"</strong>.</p>
         </div>
     </div>
 
 <script>
     function initChoices(element) {
-        return new Choices(element, { searchEnabled: true, itemSelectText: '', shouldSort: false, position: 'bottom' });
+        return new Choices(element, { 
+            searchEnabled: true, 
+            itemSelectText: '', 
+            shouldSort: false, 
+            position: 'bottom',
+            searchPlaceholderValue: 'Search flight...'
+        });
     }
 
     function saveData() {
