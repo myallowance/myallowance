@@ -21,14 +21,109 @@
                 <select class="flight-select w-full border p-2 rounded" onchange="updatePrice(this)">
                     <option value="0">Select a flight...</option>
                     <optgroup label="CLMV">
-                        <option value="3950">301 - RGN (3,950)</option>
-                        <option value="3657.5">303 - RGN (3,657.5)</option>
-                        <option value="4210">560 - HAN (4,210)</option>
+                        <option value="3950.00">301 - RGN (3,950.00)</option>
+                        <option value="3657.50">303 - RGN (3,657.50)</option>
+                        <option value="3657.50">550/556 - SGN (3,657.50)</option>
+                        <option value="4210.00">560/564 - HAN (4,210.00)</option>
+                        <option value="3527.50">570/574 - VTE (3,527.50)</option>
+                        <option value="3560.00">584/586 - KTI (3,560.00)</option>
                     </optgroup>
-                    <optgroup label="Domestic">
-                        <option value="3430">002 - UTH (3,430)</option>
-                        <option value="3592.5">102 - CNX (3,592.5)</option>
-                        <option value="3982.5">203 - HKT (3,982.5)</option>
+                    <optgroup label="DOMESTIC">
+                        <option value="3430.00">002 - UTH (3,430.00)</option>
+                        <option value="3592.50">102 - CNX (3,592.50)</option>
+                        <option value="3982.50">130 - CEI (3,982.50)</option>
+                        <option value="3560.00">136 - CEI (3,560.00)</option>
+                        <option value="3982.50">203/205/217/221 - HKT (3,982.50)</option>
+                        <option value="3592.50">241 - KBV (3,592.50)</option>
+                        <option value="5315.00">020/106 - UBP/CNX (5,315.00)</option>
+                        <option value="4730.00">040/042 - KKC/KKC (4,730.00)</option>
+                        <option value="5347.50">044/267 - KKC/HDY (5,347.50)</option>
+                        <option value="5542.50">104/215 - CNX/HKT (5,542.50)</option>
+                        <option value="5445.00">110/249 - CNX/KBV (5,445.00)</option>
+                        <option value="4957.50">112/008 - CNX/UTH (4,957.50)</option>
+                        <option value="5380.00">201/004 - HKT/UTH (5,380.00)</option>
+                        <option value="5445.00">207/028 - HKT/UBP (5,445.00)</option>
+                        <option value="4860.00">211/120 - HKT/CNX (4,860.00)</option>
+                        <option value="4860.00">259/132 - HDY/CEI (4,860.00)</option>
+                        <option value="5282.50">263/046 - HDY/KKC (5,282.50)</option>
+                    </optgroup>
+                    <optgroup label="CHINA">
+                        <option value="6647.5">608 - SZX (6,647.5)</option>
+                        <option value="5997.5">618 - TFU (5,997.5)</option>
+                        <option value="6615">630 - KHH (6,615)</option>
+                        <option value="6907.5">694 - CSX (6,907.5)</option>
+                    </optgroup>
+                    <optgroup label="INDIA-PAKISTAN">
+                        <option value="6745.00">307 - CMB (6,745.00)</option>
+                        <option value="5315.00">313 - CCU (5,315.00)</option>
+                        <option value="7557.50">315/323/331/335 - DEL (7,557.50)</option>
+                        <option value="7850.00">317/351 - BOM (7,850.00)</option>
+                        <option value="6745.00">325 - BLR (6,745.00)</option>
+                        <option value="6582.50">329 - HYD (6,582.50)</option>
+                        <option value="6225.00">337 - MAA (6,225.00)</option>
+                        <option value="8175.00">341 - KHI (8,175.00)</option>
+                        <option value=7882.50">343 - AMD (7,882.50)</option>
+                        <option value="7915.00">345 - LHE (7,915.00)</option>
+                        <option value="8597.50">349 - ISB (8,597.50)</option>
+                    </optgroup>
+                    <optgroup label="1-3 HRS">
+                        <option value="5250.00">321 - DAC (5,250.00)</option>
+                        <option value="5282.50">339 - DAC (5,282.50)</option>
+                        <option value="4860.00">401 - SIN (4,860.00)</option>
+                        <option value="4827.50">403/407/409/413 - SIN (4,827.50)</option>
+                        <option value="4730.00">415/417 - KUL (4,730.00)</option>
+                        <option value="4210.00">425 - PEN (4,210.00)</option>
+                        <option value="5412.50">600/638 - HKG (5,412.50)</option>
+                        <option value="5445.00">602 - HKG (5,445.00)</option>
+                        <option value="4762.50">612 - KMG (4,762.50)</option>
+                        <option value="5510.00">628 - HKG (5,510.00)</option>
+                        <option value="5900.00">668 - CAN (5,900.00)</option>
+                    </optgroup>
+                    <optgroup label="3-5 HRS">
+                        <option value="6257.50">309/319 - KTM (6,257.50)</option>
+                        <option value="7395.00">431 - DPS (7,395.00)</option>
+                        <option value="6582.50">433/435 - CGK (6,582.50)</option>
+                        <option value="7395.00">439 - DPS (7,395.00)</option>
+                        <option value="8207.50">614 - PEK (8,207.50)</option>
+                        <option value="6225.00">620 - MNL (6,225.00)</option>
+                        <option value="6192.50">624 - MNL (6,192.50)</option>
+                        <option value="6712.50">632/634 - TPE (6,712.50)</option>
+                        <option value="6810.00">636 - TPE (6,810.00)</option>
+                        <option value="7525.00">662 - PVG (7,525.00)</option>
+                        <option value="7460.00">664 - PVG (7,460.00)</option>
+                        <option value="8175.00">674 - PEK (8,175.00)</option>
+                        <option value="6777.50">686 - CGK (6,777.50)</option>
+                    </optgroup>
+                    <optgroup label="JAPAN-KOREA">
+                        <option value="9280.00">622/672 - KIX (9,280.00)</option>
+                        <option value="10060.00">640/676 - NRT (10,060.00)</option>
+                        <option value="10125.00">642 - NRT (10,125.00)</option>
+                        <option value="9507.50">644 - NGO (9,507.50)</option>
+                        <option value="8825.00">648 - FUK (8,825.00)</option>
+                        <option value="9247.50">652/656/658 - ICN (9,247.50)</option>
+                        <option value="10060.00">660/682 - HND (10,060.00)</option>
+                        <option value="10742.50">670 - CTS (10,742.50)</option>
+                    </optgroup>
+                    <optgroup label="AUSTRALIA">
+                        <option value="13830.00">461/465 - MEL (13,830.00)</option>
+                        <option value="13830.00">471/475 - SYD (13,830.00)</option>
+                        <option value="10710.00">481/483 - PER (10,710.00)</option>
+                    </optgroup>
+                    <optgroup label="EUROPE">
+                        <option value="14415.00">900 - IST (14,415.00)</option>
+                        <option value="17600.00">910 - LHR (17,600.00)</option>
+                        <option value="17600.00">916 - LHR (17,600.00)</option>
+                        <option value="16365.00">920 - FRA (16,365.00)</option>
+                        <option value="16365.00">922 - FRA (16,365.00)</option>
+                        <option value="16007.50">924 - MUC (16,007.50)</option>
+                        <option value="17080.00">930 - CDG (17,080.00)</option>
+                        <option value="17047.50">934 - BRU (17,047.50)</option>
+                        <option value="17112.50">936 - AMS (17,112.50)</option>
+                        <option value="16495.00">940 - MXP (16,495.00)</option>
+                        <option value="16332.50">950 - CPH (16,332.50)</option>
+                        <option value="17275.00">954 - OSL (17,275.00)</option>
+                        <option value="16657.50">960 - ARN (16,657.50)</option>
+                        <option value="16495.00">970 - ZRH (16,495.00)</option>
                     </optgroup>
                 </select>
                 <input type="number" class="flight-price w-24 border p-2 rounded bg-gray-100 text-right" value="0" readonly>
@@ -40,7 +135,7 @@
         </button>
 
         <div class="mt-6 p-4 bg-blue-50 rounded-xl text-center">
-            <p class="text-sm text-blue-600">Total Allowance:</p>
+            <p class="text-sm text-blue-600">Total Amount:</p>
             <span id="totalAmount" class="text-3xl font-bold text-blue-700">0</span>
         </div>
     </div>
