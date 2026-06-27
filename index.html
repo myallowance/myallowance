@@ -11,6 +11,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="Allowance">
+    <link rel="manifest" href="manifest.json">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"/>
@@ -194,7 +195,7 @@
     <div id="ios-install-prompt" class="hidden mt-6 p-5 bg-purple-50 border-2 border-purple-200 rounded-2xl text-center shadow-lg">
         <p class="text-md font-bold text-purple-900">Add to your homescreen!</p>
         <p class="text-sm text-purple-700 mt-2 flex justify-center items-center gap-2">Tap 
-            <img src="https://github.com/myallowance/myallowanceicon/blob/main/Icon.png?raw=true" class="w-8 h-8 rounded-lg shadow-sm" alt="icon" />the Share button, then <b>"Add to Home Screen"</b>
+            <img src="https://github.com/myallowance/myallowanceicon/blob/main/Icon.png?raw=true" class="w-8 h-8 rounded-lg shadow-sm" alt="icon" />then <b>"Add to Home Screen"</b>
         </p>
     </div>
 
@@ -271,10 +272,19 @@
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
         const isStandalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
 
-        if (isIOS && !isStandalone) {
-            const promptBox = document.getElementById('ios-install-prompt');
-            if (promptBox) promptBox.classList.remove('hidden');
+    if (!isStandalone) {
+        const promptBox = document.getElementById('ios-install-prompt');
+        if (promptBox) {
+            promptBox.classList.remove('hidden');
+            // เปลี่ยนข้อความให้ครอบคลุมทั้ง Android และ iOS
+            promptBox.innerHTML = `
+                <p class="text-md font-bold text-purple-900">Install to your device!</p>
+                <p class="text-sm text-purple-700 mt-2">
+                    Tap the menu (three dots) and select <b>"Add to Home screen"</b>
+                </p>
+            `;
         }
+}
 
         // Event Listeners อื่นๆ
         document.getElementById('addFlightBtn').addEventListener('click', () => addFlightRow());
