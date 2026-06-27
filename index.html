@@ -204,20 +204,22 @@
     }
 
     function saveAsImage() {
-        const element = document.querySelector('.max-w-md'); // กล่องสีขาวหลัก
+    const element = document.querySelector('.max-w-md'); // กล่องสีขาวหลัก
+    // 1. เพิ่ม padding ชั่วคราวเพื่อให้ขอบไม่ตก
+    element.style.paddingBottom = "40px";
     html2canvas(element, {
-        scale: 2,           // เพิ่มความละเอียดภาพ
-        backgroundColor: null, 
+        scale: 2,
+        backgroundColor: "#ffffff", // บังคับให้พื้นหลังเป็นสีขาว
         logging: false,
-        // เพิ่มบรรทัดนี้: ให้แคปโดยพิจารณาจากขนาดที่แท้จริง
-        windowWidth: element.scrollWidth,
-        windowHeight: element.scrollHeight,
-        // เพิ่มพื้นที่เผื่อรอบข้าง (ถ้ายังตัดอยู่ ให้เพิ่มเลขตรงนี้)
-        x: 0,
-        y: 0,
-        width: element.offsetWidth + 20, 
-        height: element.offsetHeight + 20
+        useCORS: true,
+        // เพิ่มค่าเหล่านี้เพื่อให้มันจับภาพทั้งหมดโดยไม่สนหน้าจอที่มองเห็น
+        scrollX: 0,
+        scrollY: -window.scrollY,
+        width: element.offsetWidth,
+        height: element.scrollHeight
     }).then(canvas => {
+        // 2. คืนค่า padding เดิมหลังจากแคปเสร็จ
+        element.style.paddingBottom = "24px"; 
         const date = new Date();
         const formattedDate = date.toLocaleDateString('en-GB').replace(/\//g, '-');
         const link = document.createElement('a');
