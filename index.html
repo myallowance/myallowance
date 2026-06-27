@@ -8,6 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         .flight-row { display: grid; grid-template-columns: 1fr 90px 30px; gap: 8px; align-items: center; margin-bottom: 8px; }
         .choices { width: 100% !important; margin-bottom: 0 !important; }
@@ -172,11 +173,14 @@
             </button>
         </div>
 
-        <div class="mt-6 p-4 bg-black rounded-2xl text-center shadow-lg">
-            <p class="text-gray-300 text-[9px] font-bold uppercase tracking-widest">Total Amount (THB)</p>
-            <span id="totalAmount" class="text-3xl font-black text-white">0.00</span>
-            <button onclick="copySummary()" class="mt-2 block w-full text-[10px] text-gray-400 underline hover:text-white transition">Copy Summary
-            </button>
+        <div class="mt-8 p-4 bg-black rounded-2xl text-center shadow-lg">
+    <p class="text-gray-300 text-[9px] font-bold uppercase tracking-widest">Total Amount (THB)</p>
+    <span id="totalAmount" class="text-3xl font-black text-white">0.00</span>
+    
+    <div class="mt-2 flex justify-center items-center gap-2 text-[10px] text-gray-400">
+        <button onclick="copySummary()" class="underline hover:text-white transition">Copy Summary</button>
+        <span class="text-gray-600">|</span>
+        <button onclick="saveAsImage()" class="underline hover:text-white transition">Save as Image</button>
         </div>
 
         <p class="mt-6 text-center text-gray-400 text-[10px] italic">Just an estimate! Don't be mad if it's slightly off ;(</p>
@@ -197,6 +201,23 @@
         const note = document.getElementById('note').value || "No note";
         const text = `Allowance Summary: ${note}\nTotal: ${total} THB`;
         navigator.clipboard.writeText(text).then(() => alert("Summary copied!"));
+    }
+
+    function saveAsImage() {
+    const element = document.querySelector('.max-w-md'); 
+    const date = new Date();
+    const formattedDate = date.toLocaleDateString('en-GB').replace(/\//g, '-');
+    
+    html2canvas(element, {
+        scale: 2, 
+        backgroundColor: null,
+        logging: false
+    }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = `Allowance-${formattedDate}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+    });
     }
 
     function updatePrice(selectElement) { 
