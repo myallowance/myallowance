@@ -203,8 +203,9 @@
     
     function updatePrice(selectElement) { 
         const row = selectElement.closest('.flight-row'); 
-        const priceInput = row.querySelector('.flight-price'); 
-        priceInput.value = parseFloat(selectElement.value).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}); 
+        const priceInput = row.querySelector('.flight-price');
+        const val = parseFloat(selectElement.value) || 0;
+        priceInput.value = val.toLocaleString(undefined, {minimumFractionDigits: 2,maximumFractionDigits: 2}); 
         calculate(); 
     }
 
