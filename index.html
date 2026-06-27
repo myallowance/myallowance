@@ -196,7 +196,7 @@
             <span id="totalAmount" class="text-3xl font-black text-white">0.00</span>
         </div>
 
-        <p class="mt-8 text-center text-gray-400 text-[10px] italic">This is just an estimation. There might be some discrepancies xoxo.</p>
+        <p class="mt-8 text-center text-gray-400 text-[10px] italic">Estimations only. Please don't be mad at me! ;(.</p>
         
         <div class="mt-4 p-4 bg-gray-50 rounded-2xl border border-gray-100">
             <p class="text-[11px] text-gray-500 text-center">Install: Tap <strong>Share</strong> > <strong>"Add to Home Screen"</strong>.</p>
@@ -204,19 +204,30 @@
     </div>
 
 <script>
-    // 1. ฟังก์ชันตั้งค่า Choices.js ให้เป็นกล่องสวยๆ
+    // 1. ฟังก์ชันตั้งค่า Choices.js
     function initChoices(element) { 
         return new Choices(element, { searchEnabled: true, itemSelectText: '', shouldSort: false, position: 'bottom' }); 
     }
 
-    // 2. ฟังก์ชันบันทึกข้อมูลลง LocalStorage
+    // 2. ฟังก์ชันบันทึกข้อมูล (รวม Note ด้วย)
     function saveData() { 
         const flights = Array.from(document.querySelectorAll('.flight-select')).map(s => s.value); 
         localStorage.setItem('baseSalary', document.getElementById('baseSalary').value); 
+        localStorage.setItem('note', document.getElementById('note').value);
         localStorage.setItem('flights', JSON.stringify(flights)); 
     }
 
-    // 3. ฟังก์ชันคำนวณและแสดงราคา
+    // 3. ฟังก์ชัน Copy Summary
+    function copySummary() {
+        const total = document.getElementById('totalAmount').innerText;
+        const note = document.getElementById('note').value || "No note";
+        const text = `Allowance Summary: ${note}\nTotal: ${total} THB`;
+        navigator.clipboard.writeText(text).then(() => {
+            alert("Summary copied to clipboard!");
+        });
+    }
+
+    // 4. ฟังก์ชันคำนวณราคา
     function updatePrice(selectElement) { 
         const row = selectElement.closest('.flight-row'); 
         const priceInput = row.querySelector('.flight-price'); 
@@ -233,13 +244,11 @@
         document.getElementById('totalAmount').innerText = total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}); 
     }
 
-    // 4. ฟังก์ชันเพิ่มแถวใหม่ (สมบูรณ์แบบ)
+    // 5. ฟังก์ชันเพิ่มแถวใหม่
     function addFlightRow(selectedValue = "0") {
         const container = document.getElementById('flightContainer');
         const newRow = document.createElement('div');
         newRow.className = 'flight-row';
-        
-        // ก๊อปปี้ Options จากตัวเลือกแรก
         const optionsHTML = document.querySelector('.flight-select').innerHTML;
         
         newRow.innerHTML = `
@@ -249,19 +258,18 @@
         `;
         
         container.appendChild(newRow);
-        
         const sel = newRow.querySelector('.flight-select');
         sel.value = selectedValue;
-        
-        // ต้อง Init Choices ให้แถวใหม่ด้วย
         initChoices(sel);
         updatePrice(sel);
     }
 
-    // 5. เมื่อโหลดหน้าเว็บเสร็จ
+    // 6. เมื่อโหลดหน้าเว็บเสร็จ (โหลดค่า Note เพิ่มเติม)
     window.onload = () => {
         const savedSalary = localStorage.getItem('baseSalary');
+        const savedNote = localStorage.getItem('note');
         if (savedSalary) document.getElementById('baseSalary').value = savedSalary;
+        if (savedNote) document.getElementById('note').value = savedNote;
         
         const savedFlights = JSON.parse(localStorage.getItem('flights'));
         if (savedFlights && savedFlights.length > 0) {
@@ -278,11 +286,15 @@
         calculate();
     };
 
-    // 6. ปุ่ม Add และ Reset
+    // 7. ปุ่มกดต่างๆ
     document.getElementById('addFlightBtn').addEventListener('click', () => addFlightRow());
-    document.getElementById('resetBtn').addEventListener('click', () => { localStorage.clear(); location.reload(); });
+    document.getElementById('resetBtn').addEventListener('click', () => { 
+        if(confirm("Are you sure? This will clear all your data.")) {
+            localStorage.clear(); 
+            location.reload(); 
+        }
+    });
 
-    // Init ตัวเลือกแรก
     initChoices(document.querySelector('.flight-select'));
 </script>
 </body>
