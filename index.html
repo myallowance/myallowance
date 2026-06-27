@@ -23,7 +23,7 @@
         <h1 class="text-2xl font-black mb-2 text-gray-800">Allowance Calculator</h1>
 
         <div class="mb-6">
-            <input id="note" type="text" placeholder="Add a note (e.g., June Trip)..." 
+            <input id="note" type="text" placeholder="Add a note (e.g., June Roster)..." 
                    class="w-full border-2 border-gray-100 p-3 rounded-2xl text-sm font-medium focus:border-blue-400 outline-none" 
                    oninput="saveData()">
         </div>
@@ -163,17 +163,23 @@
             </div>
         </div>
 
-      <div class="flex gap-2 mt-6">
-<button id="addFlightBtn" class="mt-4 w-full py-3 bg-blue-500 text-white rounded-2xl font-bold text-sm">+ Add Flight</button>
-        <button id="resetBtn" class="mt-2 w-full py-2 text-gray-400 text-[10px] underline">Reset All Data</button>
+        <button id="addFlightBtn" class="mt-6 w-full py-3 bg-blue-500 text-white rounded-2xl font-bold text-sm shadow-md active:scale-95 transition">+ Add Flight
+        </button>
 
-        <div class="mt-8 p-4 bg-black rounded-2xl text-center shadow-lg">
-            <p class="text-gray-300 text-[9px] font-bold uppercase tracking-widest">Total Amount (THB)</p>
-            <span id="totalAmount" class="text-3xl font-black text-white">0.00</span>
-            <button onclick="copySummary()" class="mt-2 block w-full text-[10px] text-gray-400 underline hover:text-white transition">Copy Summary</button>
+        <div class="mt-3 text-center">
+            <button id="resetBtn" class="text-gray-400 text-[11px] underline hover:text-red-500 transition">
+                Reset All Data
+            </button>
         </div>
 
-        <p class="mt-8 text-center text-gray-400 text-[10px] italic">Just an estimate! Don't be mad if it's slightly off ;(</p>
+        <div class="mt-6 p-4 bg-black rounded-2xl text-center shadow-lg">
+            <p class="text-gray-300 text-[9px] font-bold uppercase tracking-widest">Total Amount (THB)</p>
+            <span id="totalAmount" class="text-3xl font-black text-white">0.00</span>
+            <button onclick="copySummary()" class="mt-2 block w-full text-[10px] text-gray-400 underline hover:text-white transition">Copy Summary
+            </button>
+        </div>
+
+        <p class="mt-6 text-center text-gray-400 text-[10px] italic">Just an estimate! Don't be mad if it's slightly off ;(</p>
     </div>
 
 <script>
