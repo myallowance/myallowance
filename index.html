@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/myallowance/myallowanceicon/refs/heads/main/Icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <style>
         .flight-row { display: grid; grid-template-columns: 1fr 100px 30px; gap: 8px; align-items: center; margin-bottom: 8px; }
         .choices { width: 100% !important; margin-bottom: 0 !important; }
@@ -184,6 +187,11 @@
         <p class="mt-6 text-center text-gray-400 text-[10px] italic">Just an estimate! Don't be mad if it's slightly off ;(</p>
     </div>
 
+    <div id="ios-install-prompt" class="hidden mt-6 p-4 bg-purple-50 border-2 border-purple-200 rounded-2xl text-center">
+        <p class="text-sm font-bold text-purple-800">Add me to your homescreen?</p>
+        <p class="text-xs text-purple-600 mt-1">Tap <img src="https://img.icons8.com/ios/20/7e22ce/share-this.png" class="inline" /> then <b>"Add to Home Screen"</b></p>
+    </div>
+
 <script>
     function initChoices(element) { return new Choices(element, { searchEnabled: true, itemSelectText: '', shouldSort: false, position: 'bottom' }); }
     
@@ -251,6 +259,12 @@
         }
         calculate();
     };
+
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    const isStandalone = window.navigator.standalone;
+    if (isIOS && !isStandalone) {
+        document.getElementById('ios-install-prompt').classList.remove('hidden');
+    }
 
     document.getElementById('addFlightBtn').addEventListener('click', () => addFlightRow());
     document.getElementById('resetBtn').addEventListener('click', () => { if(confirm("Are you sure? This will clear all data.")) { localStorage.clear(); location.reload(); } });
