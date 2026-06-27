@@ -9,70 +9,47 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
     <style>
-        /* จัด Layout ให้ทุกแถวมีขนาดเท่ากันเป๊ะ */
-        /* แถวแรกที่มีปุ่มลบไม่ได้แสดง จะใช้ empty div หรือ display แบบนี้แทน */
-        .flight-row { 
-            display: grid; 
-            grid-template-columns: 1fr 90px 30px; /* 1fr สำหรับไฟล์ท, 90px สำหรับราคา, 30px สำหรับปุ่มกากบาท */
-            gap: 8px; 
-            align-items: center; 
-            margin-bottom: 8px;
-        }
-
+        .flight-row { display: grid; grid-template-columns: 1fr 90px 30px; gap: 8px; align-items: center; margin-bottom: 8px; }
         .choices { width: 100% !important; margin-bottom: 0 !important; }
-        .choices__inner { 
-            border-radius: 12px !important; 
-            border: 2px solid #e5e7eb !important; 
-            padding: 8px 12px !important; 
-            min-height: 50px !important; 
-            display: flex; 
-            align-items: center;
-        }
-        
+        .choices__inner { border-radius: 12px !important; border: 2px solid #e5e7eb !important; padding: 8px 12px !important; min-height: 50px !important; display: flex; align-items: center; }
         .choices__list--dropdown { border-radius: 12px !important; margin-top: 5px; box-shadow: 0 10px 15px rgba(0,0,0,0.1); }
         .choices__list--dropdown .choices__item--selectable { padding: 14px 16px !important; font-size: 15px !important; }
         .choices__list--dropdown .choices__group-heading { font-size: 12px !important; padding: 10px 16px !important; color: #2563eb; background: #eff6ff; }
-        
-        /* ช่องราคาที่คงขนาดไว้ที่ 90px เพื่อให้เท่ากันทุกแถว */
-        .flight-price { 
-            width: 100% !important; 
-            padding: 10px 8px !important; 
-            font-size: 14px !important; 
-            border: 2px solid #e5e7eb; 
-            border-radius: 12px; 
-            background: #f9fafb; 
-            text-align: right; 
-            font-weight: bold; 
-        }
+        .flight-price { width: 100% !important; padding: 10px 8px !important; font-size: 14px !important; border: 2px solid #e5e7eb; border-radius: 12px; background: #f9fafb; text-align: right; font-weight: bold; }
     </style>
 </head>
 <body class="bg-gray-100 p-4">
     <div class="max-w-md mx-auto bg-white rounded-3xl shadow-xl p-6">
-        <h1 class="text-2xl font-black mb-6 text-gray-800">Cabin Crew Allowance Calculator</h1>
+        <h1 class="text-2xl font-black mb-2 text-gray-800">Allowance Calculator</h1>
 
-<div class="mb-6 bg-gray-50 border border-gray-200 rounded-2xl p-4">
-    <button type="button" class="flex justify-between items-center w-full font-bold text-gray-700 text-sm" onclick="this.nextElementSibling.classList.toggle('hidden')">
-        <span>Reference Rates (ASY)</span>
-        <span class="text-xs text-gray-400">Tap to show/hide</span>
-    </button>
-    <div class="mt-3 grid grid-cols-2 gap-2 text-[11px] text-gray-600">
-        <div class="bg-white p-2 rounded-lg border border-gray-100">Allowance/hr: <span class="font-bold">650</span></div>
-        <div class="bg-white p-2 rounded-lg border border-gray-100">Trans/flight: <span class="font-bold">1,000</span></div>
-        <div class="bg-white p-2 rounded-lg border border-gray-100">Landing/sec: <span class="font-bold">250</span></div>
-        <div class="bg-white p-2 rounded-lg border border-gray-100">WOCL: <span class="font-bold">500</span></div>
-    </div>
-</div>
+        <div class="mb-6">
+            <input id="note" type="text" placeholder="Add a note (e.g., June Trip)..." 
+                   class="w-full border-2 border-gray-100 p-3 rounded-2xl text-sm font-medium focus:border-blue-400 outline-none" 
+                   oninput="saveData()">
+        </div>
+
+        <div class="mb-6 bg-gray-50 border border-gray-200 rounded-2xl p-4">
+            <button type="button" class="flex justify-between items-center w-full font-bold text-gray-700 text-sm" onclick="this.nextElementSibling.classList.toggle('hidden')">
+                <span>Reference Rates (ASY)</span>
+                <span class="text-xs text-gray-400">Show/Hide</span>
+            </button>
+            <div class="mt-3 grid grid-cols-2 gap-2 text-[11px] text-gray-600">
+                <div class="bg-white p-2 rounded-lg border border-gray-100">Allow/hr: <span class="font-bold">650</span></div>
+                <div class="bg-white p-2 rounded-lg border border-gray-100">Trans: <span class="font-bold">1,000</span></div>
+                <div class="bg-white p-2 rounded-lg border border-gray-100">Land/sec: <span class="font-bold">250</span></div>
+                <div class="bg-white p-2 rounded-lg border border-gray-100">WOCL: <span class="font-bold">500</span></div>
+            </div>
+        </div>
         
         <div class="mb-6">
             <label class="block font-bold mb-2 text-gray-400 text-[11px] uppercase tracking-widest">Base Salary (THB)</label>
             <input id="baseSalary" type="number" inputmode="decimal" class="w-full border-2 border-gray-100 p-4 rounded-2xl text-xl font-bold" placeholder="0" oninput="calculate(); saveData();">
         </div>
 
-       <div id="flightContainer" class="space-y-3">
-    <h2 class="font-bold text-gray-800 text-sm">Flights</h2>
-    
-    <div class="flight-row">
-        <select class="flight-select" onchange="updatePrice(this); saveData();">
+        <div id="flightContainer" class="space-y-3">
+            <h2 class="font-bold text-gray-800 text-sm">Flights</h2>
+            <div class="flight-row">
+                <select class="flight-select" onchange="updatePrice(this); saveData();">
                     <option value="0">Select a flight...</option>
                     <optgroup label="CLMV">
                         <option value="3450.00">301 RGN</option>
@@ -187,29 +164,21 @@
         </div>
 
       <div class="flex gap-2 mt-6">
-            <button id="addFlightBtn" class="flex-1 bg-gray-100 p-4 rounded-2xl font-bold text-gray-600 hover:bg-gray-200">+ Add</button>
-            <button id="resetBtn" class="px-6 py-4 bg-red-50 text-red-500 rounded-2xl font-bold hover:bg-red-100">Reset</button>
-        </div>
+<button id="addFlightBtn" class="mt-4 w-full py-3 bg-blue-500 text-white rounded-2xl font-bold text-sm">+ Add Flight</button>
+        <button id="resetBtn" class="mt-2 w-full py-2 text-gray-400 text-[10px] underline">Reset All Data</button>
 
         <div class="mt-8 p-4 bg-black rounded-2xl text-center shadow-lg">
             <p class="text-gray-300 text-[9px] font-bold uppercase tracking-widest">Total Amount (THB)</p>
             <span id="totalAmount" class="text-3xl font-black text-white">0.00</span>
+            <button onclick="copySummary()" class="mt-2 block w-full text-[10px] text-gray-400 underline hover:text-white transition">Copy Summary</button>
         </div>
 
-        <p class="mt-8 text-center text-gray-400 text-[10px] italic">Estimations only. Please don't be mad at me! ;(.</p>
-        
-        <div class="mt-4 p-4 bg-gray-50 rounded-2xl border border-gray-100">
-            <p class="text-[11px] text-gray-500 text-center">Install: Tap <strong>Share</strong> > <strong>"Add to Home Screen"</strong>.</p>
-        </div>
+        <p class="mt-8 text-center text-gray-400 text-[10px] italic">Just an estimate! Don't be mad if it's slightly off ;(</p>
     </div>
 
 <script>
-    // 1. ฟังก์ชันตั้งค่า Choices.js
-    function initChoices(element) { 
-        return new Choices(element, { searchEnabled: true, itemSelectText: '', shouldSort: false, position: 'bottom' }); 
-    }
-
-    // 2. ฟังก์ชันบันทึกข้อมูล (รวม Note ด้วย)
+    function initChoices(element) { return new Choices(element, { searchEnabled: true, itemSelectText: '', shouldSort: false, position: 'bottom' }); }
+    
     function saveData() { 
         const flights = Array.from(document.querySelectorAll('.flight-select')).map(s => s.value); 
         localStorage.setItem('baseSalary', document.getElementById('baseSalary').value); 
@@ -217,17 +186,13 @@
         localStorage.setItem('flights', JSON.stringify(flights)); 
     }
 
-    // 3. ฟังก์ชัน Copy Summary
     function copySummary() {
         const total = document.getElementById('totalAmount').innerText;
         const note = document.getElementById('note').value || "No note";
         const text = `Allowance Summary: ${note}\nTotal: ${total} THB`;
-        navigator.clipboard.writeText(text).then(() => {
-            alert("Summary copied to clipboard!");
-        });
+        navigator.clipboard.writeText(text).then(() => alert("Summary copied!"));
     }
 
-    // 4. ฟังก์ชันคำนวณราคา
     function updatePrice(selectElement) { 
         const row = selectElement.closest('.flight-row'); 
         const priceInput = row.querySelector('.flight-price'); 
@@ -238,25 +203,16 @@
     function calculate() { 
         let base = parseFloat(document.getElementById('baseSalary').value) || 0; 
         let total = base; 
-        document.querySelectorAll('.flight-price').forEach(input => { 
-            total += parseFloat(input.value.replace(/,/g, '')) || 0; 
-        }); 
+        document.querySelectorAll('.flight-price').forEach(input => { total += parseFloat(input.value.replace(/,/g, '')) || 0; }); 
         document.getElementById('totalAmount').innerText = total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}); 
     }
 
-    // 5. ฟังก์ชันเพิ่มแถวใหม่
     function addFlightRow(selectedValue = "0") {
         const container = document.getElementById('flightContainer');
         const newRow = document.createElement('div');
         newRow.className = 'flight-row';
         const optionsHTML = document.querySelector('.flight-select').innerHTML;
-        
-        newRow.innerHTML = `
-            <select class="flight-select" onchange="updatePrice(this); saveData();">${optionsHTML}</select>
-            <input type="text" class="flight-price" value="0" readonly>
-            <button onclick="this.parentElement.remove(); calculate(); saveData();" class="text-red-400 font-bold text-xl">×</button>
-        `;
-        
+        newRow.innerHTML = `<select class="flight-select" onchange="updatePrice(this); saveData();">${optionsHTML}</select><input type="text" class="flight-price" value="0" readonly><button onclick="this.parentElement.remove(); calculate(); saveData();" class="text-red-400 font-bold text-xl">×</button>`;
         container.appendChild(newRow);
         const sel = newRow.querySelector('.flight-select');
         sel.value = selectedValue;
@@ -264,37 +220,23 @@
         updatePrice(sel);
     }
 
-    // 6. เมื่อโหลดหน้าเว็บเสร็จ (โหลดค่า Note เพิ่มเติม)
     window.onload = () => {
         const savedSalary = localStorage.getItem('baseSalary');
         const savedNote = localStorage.getItem('note');
         if (savedSalary) document.getElementById('baseSalary').value = savedSalary;
         if (savedNote) document.getElementById('note').value = savedNote;
-        
         const savedFlights = JSON.parse(localStorage.getItem('flights'));
         if (savedFlights && savedFlights.length > 0) {
             savedFlights.forEach((val, index) => {
-                if(index === 0) { 
-                    const firstSelect = document.querySelector('.flight-select'); 
-                    firstSelect.value = val; 
-                    updatePrice(firstSelect); 
-                } else { 
-                    addFlightRow(val); 
-                }
+                if(index === 0) { const firstSelect = document.querySelector('.flight-select'); firstSelect.value = val; updatePrice(firstSelect); }
+                else { addFlightRow(val); }
             });
         }
         calculate();
     };
 
-    // 7. ปุ่มกดต่างๆ
     document.getElementById('addFlightBtn').addEventListener('click', () => addFlightRow());
-    document.getElementById('resetBtn').addEventListener('click', () => { 
-        if(confirm("Are you sure? This will clear all your data.")) {
-            localStorage.clear(); 
-            location.reload(); 
-        }
-    });
-
+    document.getElementById('resetBtn').addEventListener('click', () => { if(confirm("Are you sure? This will clear all data.")) { localStorage.clear(); location.reload(); } });
     initChoices(document.querySelector('.flight-select'));
 </script>
 </body>
