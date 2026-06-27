@@ -4,21 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Cabin Crew Allowance Calculator</title>
-    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/myallowance/myallowanceicon/refs/heads/main/Icon.png">
+    
+    <link rel="apple-touch-icon" href="https://github.com/myallowance/myallowanceicon/blob/main/Icon.png?raw=true">
+    <link rel="icon" type="image/png" href="https://github.com/myallowance/myallowanceicon/blob/main/Icon.png?raw=true">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Allowance">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/myallowance/myallowanceicon/refs/heads/main/Icon.png">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
     <style>
         .flight-row { display: grid; grid-template-columns: 1fr 100px 30px; gap: 8px; align-items: center; margin-bottom: 8px; }
         .choices { width: 100% !important; margin-bottom: 0 !important; }
         .choices__inner { border-radius: 12px !important; border: 2px solid #e5e7eb !important; padding: 8px 12px !important; min-height: 50px !important; display: flex; align-items: center; }
         .choices__list--dropdown { border-radius: 12px !important; margin-top: 5px; box-shadow: 0 10px 15px rgba(0,0,0,0.1); }
         .choices__list--dropdown .choices__item--selectable { padding: 14px 16px !important; font-size: 15px !important; }
-        .choices__list--dropdown .choices__group-heading { font-size: 12px !important; padding: 10px 16px !important; color: #2563eb; background: #eff6ff; }
         .flight-price { width: 100% !important; padding: 10px 8px !important; font-size: 14px !important; border: 2px solid #e5e7eb; border-radius: 12px; background: #f9fafb; text-align: right; font-weight: bold; }
     </style>
 </head>
@@ -187,9 +191,11 @@
         <p class="mt-6 text-center text-gray-400 text-[10px] italic">Just an estimate! Don't be mad if it's slightly off ;(</p>
     </div>
 
-    <div id="ios-install-prompt" class="hidden mt-6 p-4 bg-purple-50 border-2 border-purple-200 rounded-2xl text-center">
-        <p class="text-sm font-bold text-purple-800">Add me to your homescreen?</p>
-        <p class="text-xs text-purple-600 mt-1">Tap <img src="https://img.icons8.com/ios/20/7e22ce/share-this.png" class="inline" /> then <b>"Add to Home Screen"</b></p>
+    <div id="ios-install-prompt" class="hidden mt-6 p-5 bg-purple-50 border-2 border-purple-200 rounded-2xl text-center shadow-lg">
+        <p class="text-md font-bold text-purple-900">Add to your homescreen!</p>
+        <p class="text-sm text-purple-700 mt-2 flex justify-center items-center gap-2">Tap 
+            <img src="https://github.com/myallowance/myallowanceicon/blob/main/Icon.png?raw=true" class="w-8 h-8 rounded-lg shadow-sm" alt="icon" />the Share button, then <b>"Add to Home Screen"</b>
+        </p>
     </div>
 
 <script>
@@ -260,15 +266,30 @@
         calculate();
     };
 
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-    const isStandalone = window.navigator.standalone;
-    if (isIOS && !isStandalone) {
-        document.getElementById('ios-install-prompt').classList.remove('hidden');
-    }
+    document.addEventListener("DOMContentLoaded", function() {
+        // ตรวจสอบว่าเป็น iOS และยังไม่ได้เพิ่มลง Home Screen
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        const isStandalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
 
-    document.getElementById('addFlightBtn').addEventListener('click', () => addFlightRow());
-    document.getElementById('resetBtn').addEventListener('click', () => { if(confirm("Are you sure? This will clear all data.")) { localStorage.clear(); location.reload(); } });
-    initChoices(document.querySelector('.flight-select'));
+        if (isIOS && !isStandalone) {
+            const promptBox = document.getElementById('ios-install-prompt');
+            if (promptBox) promptBox.classList.remove('hidden');
+        }
+
+        // Event Listeners อื่นๆ
+        document.getElementById('addFlightBtn').addEventListener('click', () => addFlightRow());
+        document.getElementById('resetBtn').addEventListener('click', () => { 
+            if(confirm("Are you sure? This will clear all data.")) { 
+                localStorage.clear(); 
+                location.reload(); 
+            } 
+        });
+        
+        // สมมติว่ามีฟังก์ชัน initChoices ของคุณอยู่แล้ว
+        const firstSelect = document.querySelector('.flight-select');
+        if(firstSelect) initChoices(firstSelect);
+    });
+    
 </script>
 </body>
 </html>
