@@ -52,7 +52,13 @@
         
         <div class="mb-6">
             <label class="block font-bold mb-2 text-gray-400 text-[11px] uppercase tracking-widest">Base Salary (THB)</label>
-            <input id="baseSalary" type="number" inputmode="decimal" class="w-full border-2 border-gray-100 p-4 rounded-2xl text-xl font-bold" placeholder="0" oninput="calculate(); saveData();">
+            <input id="baseSalary" 
+                   type="text" 
+                   inputmode="decimal" 
+                   class="w-full border-2 border-gray-100 p-4 rounded-2xl text-xl font-bold" 
+                   placeholder="0.00" 
+                   onblur="formatCurrency(this)" 
+                   oninput="calculate(); saveData();">
         </div>
 
         <div id="flightContainer" class="space-y-3">
@@ -201,6 +207,16 @@
 
 <script>
     function initChoices(element) { return new Choices(element, { searchEnabled: true, itemSelectText: '', shouldSort: false, position: 'bottom' }); }
+    
+    function formatCurrency(input) {
+        let value = input.value.replace(/[^0-9.]/g, ''); // ลบตัวอักษรที่ไม่ใช่ตัวเลขออก
+        if (value) {
+            let floatValue = parseFloat(value);
+            input.value = floatValue.toFixed(2); // บังคับให้มีทศนิยม 2 ตำแหน่ง
+        }
+        calculate(); // คำนวณใหม่หลังจากจัดรูปแบบ
+        saveData();
+    }
     
     function saveData() { 
         const flights = Array.from(document.querySelectorAll('.flight-select')).map(s => s.value); 
